@@ -47,11 +47,10 @@ TextEditingController _nameAlarmController = TextEditingController();
 // alarm name
 String? title;
 
-// timer duration
-Duration _duration = Duration(minutes: 0, seconds: 0);
-Duration val = Duration(milliseconds: 0);
+// get and format timer duration
+Duration _duration = Duration(minutes: 0, seconds: 1);
 String? _prettyDuration;
-int formatDuration = 5;
+int formatDuration = 30;
 
 // options in bottomBar
 bool alarm = true;
@@ -114,7 +113,7 @@ class _HomePageState extends State<HomePage> {
 
     // exit
     _bottomBarController.closeSheet();
-    _duration = Duration.zero;
+    _duration = Duration(seconds: 1);
   }
 
   void onTimeChanged(TimeOfDay newTime) {
@@ -305,12 +304,28 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
               ] else if (timer == true) ...[
-                const Text(
-                  "Timer",
+                /*const Text(
+                  "Timer (0-1h)",
                   style: TextStyle(
                     fontStyle: FontStyle.italic,
                   ),
-                ),
+                ),*/
+                RichText(
+                    text: TextSpan(children: [
+                  TextSpan(
+                      text: "Timer (0-1h",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontStyle: FontStyle.italic,
+                        fontSize: 22,
+                      )),
+                  WidgetSpan(
+                      child: Icon(
+                    Icons.timer_sharp,
+                    size: 25,
+                  )),
+                  TextSpan(text: ")"),
+                ]))
               ] else if (favorite == true) ...[
                 const Text(
                   "Favorite",
@@ -452,8 +467,13 @@ class _HomePageState extends State<HomePage> {
                       baseUnit: BaseUnit.second,
                       duration: _duration,
                       onChange: (val) {
-                        setState(() => _duration = val);
-                        debugPrint(_duration.toString());
+                        if (val == Duration(seconds: 0, milliseconds: 0))
+                          setState(() => _duration = Duration(seconds: 1));
+                        else if (val >= Duration(minutes: 60))
+                          setState(() =>
+                              _duration = Duration(minutes: 59, seconds: 59));
+                        else
+                          setState(() => _duration = val);
                       },
                     ),
                     Row(

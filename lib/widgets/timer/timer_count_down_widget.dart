@@ -3,9 +3,13 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:omega_clock/modules/notifications.dart';
 import 'package:omega_clock/modules/set_timer_finish.dart';
 
 import 'package:neon_circular_timer/neon_circular_timer.dart';
+import 'package:omega_clock/screens/ontimer.dart';
+
+import '../../home.dart';
 
 class TimerCountDown extends StatefulWidget {
   int _duration;
@@ -14,6 +18,8 @@ class TimerCountDown extends StatefulWidget {
   @override
   State<TimerCountDown> createState() => _TimerCountDownState();
 }
+
+bool blurWidget = false;
 
 class _TimerCountDownState extends State<TimerCountDown> {
   @override
@@ -25,15 +31,26 @@ class _TimerCountDownState extends State<TimerCountDown> {
   final CountDownController controller = new CountDownController();
 
   bool _start = false;
-  bool blurWidget = false;
-
-  int ms = 200000; // max vibration time  // must fix 00:00 bug
 
   void startTimer() {
     Future.delayed(const Duration(milliseconds: 1), () {
       controller.start();
       controller.pause();
     });
+  }
+
+  setNotification(title, body) {
+    Noti.showBigTextNotification(
+        title: title, body: body, fln: flutterLocalNotificationsPlugin);
+  }
+
+  void closeTimer() {
+    setState(() {
+      FinishTimer().vibration(false);
+      FinishTimer().notificationSound(false);
+      blurWidget = false;
+    });
+    Noti.deleteAllNotifications(fln: flutterLocalNotificationsPlugin);
   }
 
   @override
@@ -48,11 +65,17 @@ class _TimerCountDownState extends State<TimerCountDown> {
               children: [
                 NeonCircularTimer(
                     onComplete: () {
-                      FinishTimer().vibration(true, ms);
+                      FinishTimer().vibration(true);
                       FinishTimer().notificationSound(true);
                       setState(() {
+                        // includes blur and timer off page
                         blurWidget = true;
                         _start = false;
+
+                        // set notification
+                        setNotification("Timer", "Time is up");
+
+                        // puts the last durations
                         startTimer();
                       });
                     },
@@ -72,9 +95,11 @@ class _TimerCountDownState extends State<TimerCountDown> {
                     neumorphicEffect: true,
                     outerStrokeColor: Colors.grey.shade100,
                     innerFillGradient: LinearGradient(colors: [
-                      Color.fromARGB(255, 10, 206, 112),
-                      Color.fromARGB(255, 28, 102, 229),
-                      Color.fromARGB(255, 106, 33, 208)
+                      Color.fromARGB(255, 31, 197, 19),
+                      Color.fromARGB(255, 44, 44, 167),
+                      Color.fromARGB(255, 209, 138, 6),
+                      Color.fromARGB(255, 126, 63, 213),
+                      Color.fromARGB(255, 31, 197, 19)
                     ]),
                     neonGradient: LinearGradient(colors: [
                       Colors.greenAccent.shade200,
@@ -157,21 +182,7 @@ class _TimerCountDownState extends State<TimerCountDown> {
                 ),
                 child: Column(
                   children: [
-                    Text(
-                      "Time is up",
-                      style: TextStyle(
-                        color: Colors.red,
-                      ),
-                    ),
-                    OutlinedButton(
-                        onPressed: () {
-                          setState(() {
-                            FinishTimer().vibration(false, ms);
-                            FinishTimer().notificationSound(false);
-                            blurWidget = false;
-                          });
-                        },
-                        child: Text("Timer sound stop")),
+                    OnTimer(closeTimer),
                   ],
                 ),
               ),

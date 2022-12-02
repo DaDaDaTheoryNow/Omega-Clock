@@ -4,7 +4,7 @@ import 'package:vibration/vibration.dart';
 import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 
 class FinishTimer {
-  void vibration(bool play, int ms) async {
+  void vibration(bool play) async {
     for (var i = 0; i < 3; i++) {
       switch (i) {
         case 1:
@@ -25,10 +25,10 @@ class FinishTimer {
         case 2:
           if (play) {
             if (await Vibration.hasCustomVibrationsSupport() == true) {
-              Vibration.vibrate(duration: ms);
+              Vibration.vibrate(duration: 200000);
             } else {
               Vibration.vibrate();
-              await Future.delayed(Duration(milliseconds: ms));
+              await Future.delayed(Duration(milliseconds: 200000));
               Vibration.vibrate();
             }
           } else {
@@ -42,7 +42,7 @@ class FinishTimer {
   void notificationSound(bool play) {
     if (play) {
       FlutterRingtonePlayer.play(
-        android: AndroidSounds.notification,
+        android: AndroidSounds.alarm,
         ios: IosSounds.glass,
         looping: true, // Android only - API >= 28
         volume: 1, // Android only - API >= 28

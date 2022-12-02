@@ -31,4 +31,9 @@ class Noti {
     var not = NotificationDetails(android: androidPlatformChannelSpecifics);
     await fln.show(0, title, body, not);
   }
+
+  static Future deleteAllNotifications(
+      {required FlutterLocalNotificationsPlugin fln}) async {
+    await fln.cancelAll();
+  }
 }
