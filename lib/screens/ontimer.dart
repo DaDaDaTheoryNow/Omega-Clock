@@ -20,14 +20,42 @@ class _OnTimerState extends State<OnTimer> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text(
-          "Time is up",
-          style: TextStyle(
-            color: Colors.red,
+        Padding(
+          padding: const EdgeInsets.only(bottom: 200),
+          child: Card(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(7.0),
+            ),
+            child: Text(
+              "Time is up",
+              style: TextStyle(
+                color: Colors.red,
+                fontWeight: FontWeight.w600,
+                fontSize: 37,
+              ),
+            ),
           ),
         ),
-        OutlinedButton(
-            onPressed: widget.voidCall, child: Text("Timer sound stop")),
+        SizedBox(
+          height: 155,
+          width: 155,
+          child: OutlinedButton(
+            onPressed: widget.voidCall,
+            child: Text(
+              "STOP",
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w900,
+              ),
+            ),
+            style: ElevatedButton.styleFrom(
+              shape: CircleBorder(),
+              padding: EdgeInsets.all(20),
+              backgroundColor: Colors.blue, // <-- Button color
+              foregroundColor: Colors.red, // <-- Splash color
+            ),
+          ),
+        ),
       ],
     );
   }

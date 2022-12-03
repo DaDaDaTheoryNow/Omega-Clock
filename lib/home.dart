@@ -39,7 +39,7 @@ TimeOfDay _timeAlarm = TimeOfDay.now();
 // alarm options
 List<String> alarmNameList = [];
 List<String> alarmTimeList = [];
-List<bool> alarmFavoriteList = <bool>[];
+List<bool> alarmFavoriteList = []; // work now
 
 // get the name of the alarm before processing
 TextEditingController _nameAlarmController = TextEditingController();
@@ -116,6 +116,10 @@ class _HomePageState extends State<HomePage> {
     _duration = Duration(seconds: 1);
   }
 
+  void onFavorite() {
+    debugPrint("on favorite");
+  }
+
   void onTimeChanged(TimeOfDay newTime) {
     showDialog(
         context: context,
@@ -178,8 +182,14 @@ class _HomePageState extends State<HomePage> {
                             _timeAlarm = newTime;
                           });
 
-                          setAlarm(context, _nameAlarmController, title,
-                              alarmNameList, alarmTimeList, _timeAlarm);
+                          setAlarm(
+                            context,
+                            _nameAlarmController,
+                            title,
+                            alarmNameList,
+                            alarmTimeList,
+                            _timeAlarm,
+                          );
                         },
                         child: const Text("Create a New Alarm")),
                     TextButton(
@@ -275,7 +285,7 @@ class _HomePageState extends State<HomePage> {
       child: AlarmMainWidget(
         alarmNameList[index],
         alarmTimeList[index],
-        //alarmFavoriteList[index], // list of the favorite buttons etc work
+        false, // list of the favorite buttons etc work
       ),
     );
   }
@@ -520,9 +530,9 @@ class _HomePageState extends State<HomePage> {
           )),
           items: const [
             BottomBarWithSheetItem(icon: Icons.alarm, label: "work on 70%"),
-            BottomBarWithSheetItem(icon: Icons.timer_sharp, label: "work now"),
-            BottomBarWithSheetItem(icon: Icons.star, label: "after the timer"),
-            BottomBarWithSheetItem(icon: Icons.settings, label: "in the end"),
+            BottomBarWithSheetItem(icon: Icons.timer_sharp),
+            BottomBarWithSheetItem(icon: Icons.star),
+            BottomBarWithSheetItem(icon: Icons.settings),
           ],
         ),
       ),

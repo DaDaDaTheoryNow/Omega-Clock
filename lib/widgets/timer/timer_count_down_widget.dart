@@ -96,7 +96,6 @@ class _TimerCountDownState extends State<TimerCountDown> {
                     outerStrokeColor: Colors.grey.shade100,
                     innerFillGradient: LinearGradient(colors: [
                       Color.fromARGB(255, 31, 197, 19),
-                      Color.fromARGB(255, 44, 44, 167),
                       Color.fromARGB(255, 209, 138, 6),
                       Color.fromARGB(255, 126, 63, 213),
                       Color.fromARGB(255, 31, 197, 19)
@@ -177,8 +176,8 @@ class _TimerCountDownState extends State<TimerCountDown> {
                   sigmaX: 3.5, sigmaY: 3.5, tileMode: TileMode.clamp),
               child: Padding(
                 padding: EdgeInsets.only(
-                  top: MediaQuery.of(context).size.width / 1.7,
-                  left: MediaQuery.of(context).size.width / 3,
+                  top: MediaQuery.of(context).size.width / 3.2,
+                  left: MediaQuery.of(context).size.width / 3.7,
                 ),
                 child: Column(
                   children: [

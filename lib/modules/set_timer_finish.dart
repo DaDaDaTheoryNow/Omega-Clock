@@ -25,10 +25,10 @@ class FinishTimer {
         case 2:
           if (play) {
             if (await Vibration.hasCustomVibrationsSupport() == true) {
-              Vibration.vibrate(duration: 200000);
+              Vibration.vibrate(duration: 50000);
             } else {
               Vibration.vibrate();
-              await Future.delayed(Duration(milliseconds: 200000));
+              await Future.delayed(Duration(milliseconds: 50000));
               Vibration.vibrate();
             }
           } else {

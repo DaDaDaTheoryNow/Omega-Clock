@@ -1,11 +1,14 @@
 import 'package:card_loading/card_loading.dart';
 import 'package:flutter/material.dart';
+import 'package:omega_clock/home.dart';
 import 'package:omega_clock/widgets/favorite_button.dart';
 
 class AlarmMainWidget extends StatefulWidget {
   final alarmName;
   final alarmTime;
-  AlarmMainWidget(this.alarmName, this.alarmTime, {super.key});
+  bool alarmFavoriteList;
+  AlarmMainWidget(this.alarmName, this.alarmTime, this.alarmFavoriteList,
+      {super.key});
 
   @override
   State<AlarmMainWidget> createState() => _AlarmMainWidgetState();
@@ -15,7 +18,7 @@ bool alarm = true;
 bool timer = false;
 bool settings = false;
 bool donate = false;
-bool alarmFavoriteList = false; //etc work
+bool alarmFavorite = false; //etc work
 
 bool isLoading = false;
 
@@ -167,10 +170,22 @@ class _AlarmMainWidgetState extends State<AlarmMainWidget> {
                                   padding: const EdgeInsets.only(right: 15),
                                   child: FavoriteButton(
                                     iconSize: 55,
-                                    isFavorited: alarmFavoriteList,
-                                    valueChanged: (_isChanged) async {},
+                                    isFavorited: widget.alarmFavoriteList,
+                                    valueChanged: (_isChanged) async {
+                                      alarmFavorite = _isChanged;
+                                      if (alarmFavorite = false) {
+                                        alarmFavoriteList
+                                            .remove(widget.alarmFavoriteList);
+                                        debugPrint("work add");
+                                      } else {
+                                        debugPrint(
+                                            _isChanged.toString() + " test");
+                                        debugPrint(
+                                            alarmFavorite.toString() + " test");
+                                      }
+                                    },
                                   ),
-                                )
+                                ),
                               ],
                             ),
                           ],
