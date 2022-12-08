@@ -285,6 +285,7 @@ class _HomePageState extends State<HomePage> {
       child: AlarmMainWidget(
         alarmNameList[index],
         alarmTimeList[index],
+        "false", // work with delete alarm on background if time is up
         false, // list of the favorite buttons etc work
       ),
     );

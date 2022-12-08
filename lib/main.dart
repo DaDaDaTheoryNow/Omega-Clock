@@ -2,13 +2,31 @@ import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:omega_clock/home.dart';
+import 'package:omega_clock/modules/notifications.dart';
 import 'package:omega_clock/screens/onboarding.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
+import 'package:workmanager/workmanager.dart';
+
+import 'modules/set_timer_finish.dart';
+
+/*void callbackDispatcher() {
+  Workmanager().executeTask((taskName, inputData) async {
+    print("Task executing :" + taskName);
+    switch (taskName) {
+      case "alarmDeleteAfterTime":
+        List test;
+
+        break;
+    }
+    return Future.value(true);
+  });
+}*/
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  /*Workmanager().initialize(callbackDispatcher);*/
 
   final prefs = await SharedPreferences.getInstance();
   final isStarted = prefs.getBool("Started") ?? false;

@@ -6,13 +6,17 @@ import 'package:omega_clock/widgets/favorite_button.dart';
 class AlarmMainWidget extends StatefulWidget {
   final alarmName;
   final alarmTime;
+  String alarmUsed;
   bool alarmFavoriteList;
-  AlarmMainWidget(this.alarmName, this.alarmTime, this.alarmFavoriteList,
+  AlarmMainWidget(
+      this.alarmName, this.alarmTime, this.alarmUsed, this.alarmFavoriteList,
       {super.key});
 
   @override
   State<AlarmMainWidget> createState() => _AlarmMainWidgetState();
 }
+
+TimeOfDay timeNow = TimeOfDay.now();
 
 bool alarm = true;
 bool timer = false;
@@ -118,80 +122,99 @@ class _AlarmMainWidgetState extends State<AlarmMainWidget> {
                               height: MediaQuery.of(context).size.height,
                               color: Colors.green,
                             ),
-                            Row(
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Padding(
-                                    padding: const EdgeInsets.only(right: 25),
-                                    child: IconButton(
-                                      onPressed: () {
-                                        // info delete
-                                        showDialog(
-                                            context: context,
-                                            builder: (BuildContext context) {
-                                              return AlertDialog(
-                                                backgroundColor: Colors.white,
-                                                title: Text(
-                                                  "Delete alarm",
-                                                  style: TextStyle(
-                                                      color: Colors.black,
-                                                      fontSize: 27),
-                                                ),
-                                                content: Text(
-                                                  "To delete an alarm just swipe left and confirm deletion",
-                                                  style: TextStyle(
-                                                      fontStyle:
-                                                          FontStyle.italic,
-                                                      fontSize: 17),
-                                                ),
-                                                actions: [
-                                                  Center(
-                                                    child: SizedBox(
-                                                      height: 35,
-                                                      width: 90,
-                                                      child: ElevatedButton(
-                                                          onPressed: () {
-                                                            Navigator.of(
-                                                                    context)
-                                                                .pop();
-                                                          },
-                                                          child: Text("Okey")),
+                                Row(
+                                  children: [
+                                    Padding(
+                                        padding:
+                                            const EdgeInsets.only(right: 25),
+                                        child: IconButton(
+                                          onPressed: () {
+                                            // info delete
+                                            showDialog(
+                                                context: context,
+                                                builder:
+                                                    (BuildContext context) {
+                                                  return AlertDialog(
+                                                    backgroundColor:
+                                                        Colors.white,
+                                                    title: Text(
+                                                      "Delete alarm",
+                                                      style: TextStyle(
+                                                          color: Colors.black,
+                                                          fontSize: 27),
                                                     ),
-                                                  ),
-                                                ],
-                                              );
-                                            });
-                                      },
-                                      icon: Icon(
-                                        Icons.info_outline,
-                                        size: 35,
+                                                    content: Text(
+                                                      "To delete an alarm just swipe left and confirm deletion",
+                                                      style: TextStyle(
+                                                          fontStyle:
+                                                              FontStyle.italic,
+                                                          fontSize: 17),
+                                                    ),
+                                                    actions: [
+                                                      Center(
+                                                        child: SizedBox(
+                                                          height: 35,
+                                                          width: 90,
+                                                          child: ElevatedButton(
+                                                              onPressed: () {
+                                                                Navigator.of(
+                                                                        context)
+                                                                    .pop();
+                                                              },
+                                                              child:
+                                                                  Text("Okey")),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  );
+                                                });
+                                          },
+                                          icon: Icon(
+                                            Icons.info_outline,
+                                            size: 35,
+                                          ),
+                                        )),
+                                    Padding(
+                                      padding: const EdgeInsets.only(right: 15),
+                                      child: FavoriteButton(
+                                        iconSize: 55,
+                                        isFavorited: widget.alarmFavoriteList,
+                                        valueChanged: (_isChanged) async {
+                                          alarmFavorite = _isChanged;
+                                          if (alarmFavorite = false) {
+                                            alarmFavoriteList.remove(
+                                                widget.alarmFavoriteList);
+                                            debugPrint("work add");
+                                          } else {
+                                            debugPrint(_isChanged.toString() +
+                                                " test");
+                                            debugPrint(
+                                                alarmFavorite.toString() +
+                                                    " test");
+                                          }
+                                        },
                                       ),
-                                    )),
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 15),
-                                  child: FavoriteButton(
-                                    iconSize: 55,
-                                    isFavorited: widget.alarmFavoriteList,
-                                    valueChanged: (_isChanged) async {
-                                      alarmFavorite = _isChanged;
-                                      if (alarmFavorite = false) {
-                                        alarmFavoriteList
-                                            .remove(widget.alarmFavoriteList);
-                                        debugPrint("work add");
-                                      } else {
-                                        debugPrint(
-                                            _isChanged.toString() + " test");
-                                        debugPrint(
-                                            alarmFavorite.toString() + " test");
-                                      }
-                                    },
-                                  ),
+                                    ),
+                                  ],
                                 ),
+                                if (widget.alarmUsed == "true")
+                                  Text(
+                                    "This alarm has already gone off, please delete",
+                                    style: TextStyle(
+                                      color: Colors.red,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 10,
+                                    ),
+                                  )
                               ],
                             ),
                           ],
                         ),
                       ),
-                    ))
+                    )),
               ]
             ],
           ),
