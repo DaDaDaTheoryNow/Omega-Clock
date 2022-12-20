@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:omega_clock/home.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:simple_gradient_text/simple_gradient_text.dart';
+import 'package:omega_clock/modules/simple_gradient_text.dart';
 
 class OnboardingPage extends StatefulWidget {
   const OnboardingPage({super.key});

@@ -1,7 +1,11 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:vibration/vibration.dart';
 import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
+
+String sound_timer = "assets/sounds/sound_default.mp3";
 
 class FinishTimer {
   void vibration(bool play) async {
@@ -39,10 +43,10 @@ class FinishTimer {
     }
   }
 
-  void notificationSound(bool play) {
+  void notificationSound(bool play) async {
     if (play) {
       FlutterRingtonePlayer.play(
-        android: AndroidSounds.alarm,
+        fromAsset: sound_timer,
         ios: IosSounds.glass,
         looping: true, // Android only - API >= 28
         volume: 1, // Android only - API >= 28

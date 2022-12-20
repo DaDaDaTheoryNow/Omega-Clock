@@ -9,6 +9,8 @@ import 'package:omega_clock/widgets/alarm/nothing_warning_alarm.dart';
 import 'package:omega_clock/widgets/timer/timer_count_down_widget.dart';
 import 'package:omega_clock/widgets/timer/warning_select_timer.dart';
 import 'package:omega_clock/widgets/alarm/alarm_main_widget.dart';
+import 'package:omega_clock/widgets/settings/settings_info.dart';
+import 'package:omega_clock/widgets/settings/settings_main.dart';
 
 import 'package:bottom_bar_with_sheet/bottom_bar_with_sheet.dart';
 import 'package:flutter_alarm_clock/flutter_alarm_clock.dart';
@@ -66,7 +68,7 @@ final List<Icon> _icons = [
   Icon(Icons.add_alarm_sharp, color: Colors.white, size: 35),
   Icon(Icons.timer_sharp, color: Colors.white, size: 35),
   Icon(Icons.star, color: Colors.white, size: 35),
-  Icon(Icons.settings, color: Colors.white, size: 35)
+  Icon(Icons.info_outline_rounded, color: Colors.white, size: 35)
 ];
 
 class _HomePageState extends State<HomePage> {
@@ -382,19 +384,20 @@ class _HomePageState extends State<HomePage> {
                         ),
                       )
                     : (settings == true)
-                        ? const Center(
-                            child: Text(
-                              "Settings",
-                              style: TextStyle(
-                                color: Colors.white,
-                              ),
-                            ),
-                          )
+                        ? SettingsMain(context)
                         : null,
         bottomNavigationBar: BottomBarWithSheet(
           controller: _bottomBarController,
           bottomBarTheme: BottomBarTheme(
-            heightOpened: 550,
+            heightOpened: alarm
+                ? 550
+                : timer
+                    ? 550
+                    : favorite
+                        ? 220
+                        : settings
+                            ? 400
+                            : 550,
             selectedItemIconColor: Theme.of(context).focusColor,
             mainButtonPosition: MainButtonPosition.middle,
             decoration: BoxDecoration(
@@ -525,12 +528,12 @@ class _HomePageState extends State<HomePage> {
               ] else if (favorite) ...[
                 const Text("favorite"),
               ] else if (settings) ...[
-                const Text("settings"),
+                SettingsInfo(context)
               ]
             ],
           )),
           items: const [
-            BottomBarWithSheetItem(icon: Icons.alarm, label: "work on 70%"),
+            BottomBarWithSheetItem(icon: Icons.alarm),
             BottomBarWithSheetItem(icon: Icons.timer_sharp),
             BottomBarWithSheetItem(icon: Icons.star),
             BottomBarWithSheetItem(icon: Icons.settings),

@@ -2,14 +2,16 @@ import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:omega_clock/home.dart';
-import 'package:omega_clock/modules/notifications.dart';
+import 'package:omega_clock/modules/set_sound_timer.dart';
+//import 'package:omega_clock/modules/notifications.dart';
 import 'package:omega_clock/screens/onboarding.dart';
+import 'package:omega_clock/widgets/settings/settings_main.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:simple_gradient_text/simple_gradient_text.dart';
-import 'package:workmanager/workmanager.dart';
+import 'package:omega_clock/modules/simple_gradient_text.dart';
+//import 'package:workmanager/workmanager.dart';
 
-import 'modules/set_timer_finish.dart';
+//import 'modules/set_timer_finish.dart';
 
 /*void callbackDispatcher() {
   Workmanager().executeTask((taskName, inputData) async {
@@ -26,11 +28,21 @@ import 'modules/set_timer_finish.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  /*Workmanager().initialize(callbackDispatcher);*/
+  //Workmanager().initialize(callbackDispatcher);
 
+  // get isStarted info
   final prefs = await SharedPreferences.getInstance();
   final isStarted = prefs.getBool("Started") ?? false;
-  debugPrint("get isStarted $isStarted");
+  debugPrint("get isStarted '$isStarted'");
+
+  // get selectSound for timer
+  final selectedItemSound = prefs.getString("SelectSound") ?? "Default";
+  SelectSound().getSound(selectedItemSound);
+  debugPrint("get TimerSound '$selectedItemSound'");
+
+  // get selectTheme
+  selectedItemTheme = prefs.getString("SelectTheme") ?? "System";
+  debugPrint("get Theme '$selectedItemTheme'");
 
   runApp(
     OmegaClockApp(isStarted: isStarted),
