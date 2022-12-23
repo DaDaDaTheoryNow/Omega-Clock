@@ -11,6 +11,7 @@ import 'package:omega_clock/widgets/timer/warning_select_timer.dart';
 import 'package:omega_clock/widgets/alarm/alarm_main_widget.dart';
 import 'package:omega_clock/widgets/settings/settings_info.dart';
 import 'package:omega_clock/widgets/settings/settings_main.dart';
+import 'package:omega_clock/screens/favorite.dart';
 
 import 'package:bottom_bar_with_sheet/bottom_bar_with_sheet.dart';
 import 'package:flutter_alarm_clock/flutter_alarm_clock.dart';
@@ -41,7 +42,7 @@ TimeOfDay _timeAlarm = TimeOfDay.now();
 // alarm options
 List<String> alarmNameList = [];
 List<String> alarmTimeList = [];
-List<bool> alarmFavoriteList = []; // work now
+List<String> alarmFavoriteList = []; // work now
 
 // get the name of the alarm before processing
 TextEditingController _nameAlarmController = TextEditingController();
@@ -96,6 +97,7 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       alarmNameList = prefs.getStringList('alarmNameList')!;
       alarmTimeList = prefs.getStringList('alarmTimeList')!;
+      alarmFavoriteList = prefs.getStringList('alarmFavoriteList')!;
     });
   }
 
@@ -116,10 +118,6 @@ class _HomePageState extends State<HomePage> {
     // exit
     _bottomBarController.closeSheet();
     _duration = Duration(seconds: 1);
-  }
-
-  void onFavorite() {
-    debugPrint("on favorite");
   }
 
   void onTimeChanged(TimeOfDay newTime) {
@@ -190,6 +188,7 @@ class _HomePageState extends State<HomePage> {
                             title,
                             alarmNameList,
                             alarmTimeList,
+                            alarmFavoriteList,
                             _timeAlarm,
                           );
                         },
@@ -200,8 +199,14 @@ class _HomePageState extends State<HomePage> {
                             _timeAlarm = newTime;
                           });
 
-                          setAlarm(context, _nameAlarmController, title,
-                              alarmNameList, alarmTimeList, _timeAlarm);
+                          setAlarm(
+                              context,
+                              _nameAlarmController,
+                              title,
+                              alarmNameList,
+                              alarmTimeList,
+                              alarmFavoriteList,
+                              _timeAlarm);
                         },
                         child: const Text(
                           "Thanks, no",
@@ -287,8 +292,9 @@ class _HomePageState extends State<HomePage> {
       child: AlarmMainWidget(
         alarmNameList[index],
         alarmTimeList[index],
+        alarmFavoriteList[index], // list of the favorite buttons etc work
         "false", // work with delete alarm on background if time is up
-        false, // list of the favorite buttons etc work
+        index,
       ),
     );
   }
@@ -317,12 +323,6 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
               ] else if (timer == true) ...[
-                /*const Text(
-                  "Timer (0-1h)",
-                  style: TextStyle(
-                    fontStyle: FontStyle.italic,
-                  ),
-                ),*/
                 RichText(
                     text: TextSpan(children: [
                   TextSpan(
@@ -369,20 +369,13 @@ class _HomePageState extends State<HomePage> {
                       );
                     },
                   )
-                : NothingWarning(context)
+                : NothingWarning(Icons.alarm_add_sharp, context)
             : (timer)
                 ? (_openedBar)
                     ? WarningSelectTimer(context)
                     : TimerCountDown(formatDuration)
                 : (favorite == true)
-                    ? const Center(
-                        child: Text(
-                          "Favorite",
-                          style: TextStyle(
-                            color: Colors.white,
-                          ),
-                        ),
-                      )
+                    ? FavoritePage()
                     : (settings == true)
                         ? SettingsMain(context)
                         : null,

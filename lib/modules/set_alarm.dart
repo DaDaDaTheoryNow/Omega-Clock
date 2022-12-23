@@ -5,7 +5,7 @@ import 'package:flutter_alarm_clock/flutter_alarm_clock.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 setAlarm(BuildContext context, _nameAlarmController, title, alarmNameList,
-    alarmTimeList, _timeAlarm) async {
+    alarmTimeList, alarmFavoriteList, _timeAlarm) async {
   // add alarm
   if (_nameAlarmController.text.isNotEmpty) {
     // add alarm title
@@ -29,6 +29,9 @@ setAlarm(BuildContext context, _nameAlarmController, title, alarmNameList,
   await prefs.setStringList('alarmNameList', alarmNameList);
   // time
   await prefs.setStringList('alarmTimeList', alarmTimeList);
+  // favorite
+  alarmFavoriteList.add("false");
+  await prefs.setStringList('alarmFavoriteList', alarmFavoriteList);
 
   // exit
   _nameAlarmController.clear();

@@ -3,8 +3,9 @@
 import 'package:flutter/material.dart';
 
 class NothingWarning extends StatefulWidget {
+  final IconData icon;
   BuildContext context;
-  NothingWarning(this.context, {super.key});
+  NothingWarning(this.icon, this.context, {super.key});
 
   @override
   State<NothingWarning> createState() => _NothingWarningState();
@@ -50,7 +51,7 @@ class _NothingWarningState extends State<NothingWarning> {
                         child: Container(
                       padding: const EdgeInsets.only(left: 7, right: 7),
                       child: Icon(
-                        Icons.alarm_add_sharp,
+                        widget.icon,
                         color: Theme.of(widget.context).canvasColor,
                         size: 40,
                       ),

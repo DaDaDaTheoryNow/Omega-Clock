@@ -1,28 +1,23 @@
 import 'package:card_loading/card_loading.dart';
 import 'package:flutter/material.dart';
-import 'package:omega_clock/home.dart';
+import 'package:omega_clock/screens/favorite.dart';
 import 'package:omega_clock/widgets/favorite_button.dart';
+import 'package:omega_clock/home.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AlarmMainWidget extends StatefulWidget {
   final alarmName;
   final alarmTime;
+  String alarmFavoriteListAsString;
   String alarmUsed;
-  bool alarmFavoriteList;
-  AlarmMainWidget(
-      this.alarmName, this.alarmTime, this.alarmUsed, this.alarmFavoriteList,
+  int index;
+  AlarmMainWidget(this.alarmName, this.alarmTime,
+      this.alarmFavoriteListAsString, this.alarmUsed, this.index,
       {super.key});
 
   @override
   State<AlarmMainWidget> createState() => _AlarmMainWidgetState();
 }
-
-TimeOfDay timeNow = TimeOfDay.now();
-
-bool alarm = true;
-bool timer = false;
-bool settings = false;
-bool donate = false;
-bool alarmFavorite = false; //etc work
 
 bool isLoading = false;
 
@@ -31,6 +26,7 @@ bool _visibleLoading = false;
 bool firstTimeLoading = true;
 
 class _AlarmMainWidgetState extends State<AlarmMainWidget> {
+  bool _visibleFavorite = false;
   @override
   void initState() {
     super.initState();
@@ -64,6 +60,8 @@ class _AlarmMainWidgetState extends State<AlarmMainWidget> {
 
   @override
   Widget build(BuildContext context) {
+    bool alarmFavorite = widget.alarmFavoriteListAsString == 'true';
+
     return AnimatedOpacity(
         opacity: _visibleLoading ? 1 : 0.0,
         duration: const Duration(milliseconds: 575),
@@ -177,27 +175,116 @@ class _AlarmMainWidgetState extends State<AlarmMainWidget> {
                                             size: 35,
                                           ),
                                         )),
-                                    Padding(
-                                      padding: const EdgeInsets.only(right: 15),
-                                      child: FavoriteButton(
-                                        iconSize: 55,
-                                        isFavorited: widget.alarmFavoriteList,
-                                        valueChanged: (_isChanged) async {
-                                          alarmFavorite = _isChanged;
-                                          if (alarmFavorite = false) {
-                                            alarmFavoriteList.remove(
-                                                widget.alarmFavoriteList);
-                                            debugPrint("work add");
-                                          } else {
-                                            debugPrint(_isChanged.toString() +
-                                                " test");
-                                            debugPrint(
-                                                alarmFavorite.toString() +
-                                                    " test");
-                                          }
-                                        },
+                                    if (!_visibleFavorite)
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(right: 15),
+                                        child: FavoriteButton(
+                                          iconSize: 55,
+                                          isFavorited: alarmFavorite,
+                                          valueChanged: (_isChanged) async {
+                                            final prefs =
+                                                await SharedPreferences
+                                                    .getInstance();
+
+                                            if (_isChanged) {
+                                              debugPrint("Is changed true");
+
+                                              alarmFavoriteNameList
+                                                  .add(widget.alarmName);
+                                              alarmFavoriteTimeList
+                                                  .add(widget.alarmTime);
+
+                                              prefs.setStringList(
+                                                  'alarmFavoriteNameList',
+                                                  alarmFavoriteNameList);
+                                              prefs.setStringList(
+                                                  'alarmFavoriteTimeList',
+                                                  alarmFavoriteTimeList);
+
+                                              // test favorite
+                                              alarmFavoriteList
+                                                  .removeAt(widget.index);
+                                              alarmFavoriteList.add("true");
+                                              prefs.setStringList(
+                                                  'alarmFavoriteList',
+                                                  alarmFavoriteList);
+                                              // end
+
+                                              setState(() {
+                                                _visibleFavorite = true;
+                                              });
+                                            }
+                                            if (!_isChanged) {
+                                              debugPrint("Is changed false");
+
+                                              alarmFavoriteNameList
+                                                  .remove(widget.alarmName);
+                                              alarmFavoriteTimeList
+                                                  .remove(widget.alarmTime);
+
+                                              prefs.setStringList(
+                                                  'alarmFavoriteNameList',
+                                                  alarmFavoriteNameList);
+                                              prefs.setStringList(
+                                                  'alarmFavoriteTimeList',
+                                                  alarmFavoriteTimeList);
+
+                                              // test favorite
+                                              alarmFavoriteList
+                                                  .removeAt(widget.index);
+                                              alarmFavoriteList.add("false");
+                                              prefs.setStringList(
+                                                  'alarmFavoriteList',
+                                                  alarmFavoriteList);
+                                              // end
+                                            }
+                                          },
+                                        ),
                                       ),
-                                    ),
+                                    if (_visibleFavorite)
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            right: 15, bottom: 5),
+                                        child: IconButton(
+                                          onPressed: () async {
+                                            final prefs =
+                                                await SharedPreferences
+                                                    .getInstance();
+
+                                            alarmFavoriteNameList
+                                                .remove(widget.alarmName);
+                                            alarmFavoriteTimeList
+                                                .remove(widget.alarmTime);
+
+                                            prefs.setStringList(
+                                                'alarmFavoriteNameList',
+                                                alarmFavoriteNameList);
+                                            prefs.setStringList(
+                                                'alarmFavoriteTimeList',
+                                                alarmFavoriteTimeList);
+
+                                            // test favorite
+                                            alarmFavoriteList
+                                                .removeAt(widget.index);
+                                            alarmFavoriteList.add("false");
+                                            prefs.setStringList(
+                                                'alarmFavoriteList',
+                                                alarmFavoriteList);
+                                            // end
+
+                                            setState(() {
+                                              _visibleFavorite =
+                                                  !_visibleFavorite;
+                                            });
+                                          },
+                                          icon: Icon(
+                                            Icons.star,
+                                            color: Colors.yellow,
+                                            size: 40,
+                                          ),
+                                        ),
+                                      )
                                   ],
                                 ),
                                 if (widget.alarmUsed == "true")

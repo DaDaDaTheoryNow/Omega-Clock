@@ -107,8 +107,8 @@ class _SplashScreenState extends State<SplashScreen> {
       nextScreen: widget.isStarted ? const HomePage() : const OnboardingPage(),
       splashTransition: SplashTransition.fadeTransition,
       pageTransitionType: PageTransitionType.fade,
-      animationDuration: const Duration(milliseconds: 500),
-      duration: 500,
+      animationDuration: const Duration(milliseconds: 435),
+      duration: 435,
     );
   }
 }
