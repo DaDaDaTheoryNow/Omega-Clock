@@ -1,4 +1,5 @@
 // ignore_for_file: library_private_types_in_public_api
+import 'dart:async';
 import 'dart:math';
 
 import 'package:duration/duration.dart';
@@ -73,6 +74,7 @@ final List<Icon> _icons = [
 ];
 
 class _HomePageState extends State<HomePage> {
+  int? index_main;
   // intilizate before the page is assembled
   @override
   void initState() {

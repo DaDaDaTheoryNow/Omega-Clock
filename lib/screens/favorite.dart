@@ -6,14 +6,14 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:omega_clock/home.dart';
-import 'package:omega_clock/widgets/alarm/alarm_main_widget.dart';
+import 'package:omega_clock/widgets/alarm/alarm_favorite_widget.dart';
 import 'package:omega_clock/widgets/alarm/nothing_warning_alarm.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../modules/notifications.dart';
 
 class FavoritePage extends StatefulWidget {
-  const FavoritePage({super.key});
+  FavoritePage({super.key});
 
   @override
   State<FavoritePage> createState() => _FavoritePageState();
@@ -115,12 +115,11 @@ class _FavoritePageState extends State<FavoritePage> {
           ),
         ],
       ),
-      child: AlarmMainWidget(
+      child: AlarmFavoriteWidget(
         alarmFavoriteNameList[index],
         alarmFavoriteTimeList[index],
         "true", // list of the favorite buttons etc work,
         "false", // work with delete alarm on background if time is up
-        index,
       ),
     );
   }

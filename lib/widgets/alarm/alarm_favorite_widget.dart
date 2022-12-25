@@ -5,18 +5,17 @@ import 'package:omega_clock/widgets/favorite_button.dart';
 import 'package:omega_clock/home.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class AlarmMainWidget extends StatefulWidget {
+class AlarmFavoriteWidget extends StatefulWidget {
   final alarmName;
   final alarmTime;
   String alarmFavoriteListAsString;
   String alarmUsed;
-  int index;
-  AlarmMainWidget(this.alarmName, this.alarmTime,
-      this.alarmFavoriteListAsString, this.alarmUsed, this.index,
+  AlarmFavoriteWidget(this.alarmName, this.alarmTime,
+      this.alarmFavoriteListAsString, this.alarmUsed,
       {super.key});
 
   @override
-  State<AlarmMainWidget> createState() => _AlarmMainWidgetState();
+  State<AlarmFavoriteWidget> createState() => _AlarmFavoriteWidgetState();
 }
 
 bool isLoading = false;
@@ -25,8 +24,9 @@ bool _visibleLoading = false;
 
 bool firstTimeLoading = true;
 
-class _AlarmMainWidgetState extends State<AlarmMainWidget> {
+class _AlarmFavoriteWidgetState extends State<AlarmFavoriteWidget> {
   bool _visibleFavorite = false;
+  int? index;
   @override
   void initState() {
     super.initState();
@@ -55,18 +55,19 @@ class _AlarmMainWidgetState extends State<AlarmMainWidget> {
           });
         });
       });
+      getFavoriteIndex();
     }
   }
 
-  setFavoriteIndex() async {
+  getFavoriteIndex() async {
     final prefs = await SharedPreferences.getInstance();
-    prefs.setInt("FavoriteIndex", widget.index);
+    index = prefs.getInt("FavoriteIndex")!;
   }
 
   @override
   Widget build(BuildContext context) {
     bool alarmFavorite = widget.alarmFavoriteListAsString == 'true';
-
+    getFavoriteIndex();
     return AnimatedOpacity(
         opacity: _visibleLoading ? 1 : 0.0,
         duration: const Duration(milliseconds: 575),
@@ -194,7 +195,7 @@ class _AlarmMainWidgetState extends State<AlarmMainWidget> {
 
                                             if (_isChanged) {
                                               debugPrint("Is changed true");
-                                              setFavoriteIndex();
+
                                               alarmFavoriteNameList
                                                   .add(widget.alarmName);
                                               alarmFavoriteTimeList
@@ -207,11 +208,11 @@ class _AlarmMainWidgetState extends State<AlarmMainWidget> {
                                                   'alarmFavoriteTimeList',
                                                   alarmFavoriteTimeList);
 
-                                              // favorite star
+                                              // test favorite
                                               alarmFavoriteList
-                                                  .removeAt(widget.index);
+                                                  .removeAt(index!);
                                               alarmFavoriteList.insert(
-                                                  widget.index, "true");
+                                                  index!, "true");
                                               prefs.setStringList(
                                                   'alarmFavoriteList',
                                                   alarmFavoriteList);
@@ -221,9 +222,9 @@ class _AlarmMainWidgetState extends State<AlarmMainWidget> {
                                                 _visibleFavorite = true;
                                               });
                                             }
-
                                             if (!_isChanged) {
                                               debugPrint("Is changed false");
+
                                               alarmFavoriteNameList
                                                   .remove(widget.alarmName);
                                               alarmFavoriteTimeList
@@ -236,18 +237,17 @@ class _AlarmMainWidgetState extends State<AlarmMainWidget> {
                                                   'alarmFavoriteTimeList',
                                                   alarmFavoriteTimeList);
 
-                                              // favorite star
+                                              // test favorite
                                               alarmFavoriteList
-                                                  .removeAt(widget.index);
+                                                  .removeAt(index!);
                                               alarmFavoriteList.insert(
-                                                  widget.index, "false");
+                                                  index!, "false");
                                               prefs.setStringList(
                                                   'alarmFavoriteList',
                                                   alarmFavoriteList);
                                               debugPrint(
                                                   alarmFavoriteList.toString());
-                                              debugPrint(
-                                                  widget.index.toString());
+                                              debugPrint(index.toString());
                                               // end
                                             }
                                           },
@@ -275,11 +275,10 @@ class _AlarmMainWidgetState extends State<AlarmMainWidget> {
                                                 'alarmFavoriteTimeList',
                                                 alarmFavoriteTimeList);
 
-                                            // favorite star
-                                            alarmFavoriteList
-                                                .removeAt(widget.index);
+                                            // test favorite
+                                            alarmFavoriteList.removeAt(index!);
                                             alarmFavoriteList.insert(
-                                                widget.index, "false");
+                                                index!, "false");
                                             prefs.setStringList(
                                                 'alarmFavoriteList',
                                                 alarmFavoriteList);
