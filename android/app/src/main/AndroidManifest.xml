@@ -6,6 +6,9 @@
 <!-- For apps with targetSDK=31 (Android 12) -->
 <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"/>
 
+<uses-permission android:name="com.android.alarm.permission.SET_ALARM"/>
+<uses-permission android:name="com.android.alarm.permission.DISMISS_ALARM"/>
+
    <application
         android:label="omega_clock"
         android:name="${applicationName}"

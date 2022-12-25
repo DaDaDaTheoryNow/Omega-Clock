@@ -1,9 +1,9 @@
 // ignore_for_file: library_private_types_in_public_api
 import 'dart:async';
-import 'dart:math';
 
 import 'package:duration/duration.dart';
 import 'package:duration_picker/duration_picker.dart';
+import 'package:flutter_alarm_clock/flutter_alarm_clock.dart';
 import 'package:omega_clock/modules/set_alarm.dart';
 import 'package:omega_clock/widgets/alarm/alarm_time_picker.dart';
 import 'package:omega_clock/widgets/alarm/nothing_warning_alarm.dart';
@@ -15,7 +15,6 @@ import 'package:omega_clock/widgets/settings/settings_main.dart';
 import 'package:omega_clock/screens/favorite.dart';
 
 import 'package:bottom_bar_with_sheet/bottom_bar_with_sheet.dart';
-import 'package:flutter_alarm_clock/flutter_alarm_clock.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -74,7 +73,6 @@ final List<Icon> _icons = [
 ];
 
 class _HomePageState extends State<HomePage> {
-  int? index_main;
   // intilizate before the page is assembled
   @override
   void initState() {
