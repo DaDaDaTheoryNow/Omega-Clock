@@ -1,0 +1,20 @@
+{
+    "app_bar": {
+        "Alarm": "Будильник",
+        "Timer": "Таймер",
+        "hour": "ч",
+        "Favorite": "Избранные",
+        "Settings": "Настройки"
+    },
+    "settings": {
+        "Theme": "Тема",
+        "Change_sound_of_timer": "Звук таймера",
+        "Reminder_notifications": "Напоминающие уведомления",
+        "Change_language": "Изменить язык",
+        "language": "Русский",
+        "Thanks_for_using_my_app": "Спасибо за использование моего приложения!",
+        "Your_version_up_to_date": "Ваша версия актуальная",
+        "Check_update": "Проверить обновления",
+        "Current_version": "Версия"
+    }
+}

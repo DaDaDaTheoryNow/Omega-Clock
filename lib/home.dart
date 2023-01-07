@@ -1,9 +1,11 @@
-// ignore_for_file: library_private_types_in_public_api
+// ignore_for_file: library_private_types_in_public_api, deprecated_member_use
 import 'dart:async';
 
 import 'package:duration/duration.dart';
 import 'package:duration_picker/duration_picker.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_alarm_clock/flutter_alarm_clock.dart';
+import 'package:omega_clock/generated/locale_keys.g.dart';
 import 'package:omega_clock/modules/set_alarm.dart';
 import 'package:omega_clock/widgets/alarm/alarm_time_picker.dart';
 import 'package:omega_clock/widgets/alarm/nothing_warning_alarm.dart';
@@ -233,8 +235,8 @@ class _HomePageState extends State<HomePage> {
                 bottomRight: Radius.circular(8), topRight: Radius.circular(8)),
             backgroundColor: Color.fromARGB(255, 255, 17, 0),
             foregroundColor: Colors.white,
-            icon: Icons.report,
-            label: 'Report',
+            icon: Icons.monetization_on,
+            label: 'Donat',
           ),
         ],
       ),
@@ -258,8 +260,7 @@ class _HomePageState extends State<HomePage> {
                   fln: flutterLocalNotificationsPlugin);
 
               Fluttertoast.showToast(
-                  msg:
-                      "Sucess deleting \"${alarmNameList[index]} OMEGA ALARM\",  go back by clicking on the new notification",
+                  msg: "Go back by clicking on the new notification",
                   toastLength: Toast.LENGTH_SHORT,
                   gravity: ToastGravity.SNACKBAR,
                   timeInSecForIosWeb: 1,
@@ -273,11 +274,24 @@ class _HomePageState extends State<HomePage> {
                       title: alarmNameList[index], skipUi: true);
                   alarmNameList.removeAt(index);
                   alarmTimeList.removeAt(index);
+                  alarmFavoriteList.removeAt(index);
+                  if (alarmFavoriteNameList.isNotEmpty) {
+                    alarmFavoriteNameList.removeAt(index);
+                  }
+                  if (alarmFavoriteTimeList.isNotEmpty) {
+                    alarmFavoriteTimeList.removeAt(index);
+                  }
                   EasyLoading.dismiss();
                 });
                 final prefs = await SharedPreferences.getInstance();
                 await prefs.setStringList('alarmNameList', alarmNameList);
                 await prefs.setStringList('alarmTimeList', alarmTimeList);
+                await prefs.setStringList(
+                    'alarmFavoriteNameList', alarmFavoriteNameList);
+                await prefs.setStringList(
+                    'alarmFavoriteTimeList', alarmFavoriteTimeList);
+                await prefs.setStringList(
+                    'alarmFavoriteList', alarmFavoriteList);
               });
             },
             borderRadius: BorderRadius.only(
@@ -316,8 +330,8 @@ class _HomePageState extends State<HomePage> {
             children: [
               // appBar selected option
               if (alarm == true) ...[
-                const Text(
-                  "Alarm",
+                Text(
+                  LocaleKeys.app_bar_Alarm.tr(),
                   style: TextStyle(
                     fontStyle: FontStyle.italic,
                   ),
@@ -326,8 +340,11 @@ class _HomePageState extends State<HomePage> {
                 RichText(
                     text: TextSpan(children: [
                   TextSpan(
-                      text: "Timer (0-1h",
+                      text:
+                          "${LocaleKeys.app_bar_Timer.tr()} (0-1 ${LocaleKeys.app_bar_hour.tr()}",
                       style: TextStyle(
+                        color:
+                            Theme.of(context).appBarTheme.titleTextStyle!.color,
                         fontWeight: FontWeight.bold,
                         fontStyle: FontStyle.italic,
                         fontSize: 22,
@@ -335,20 +352,29 @@ class _HomePageState extends State<HomePage> {
                   WidgetSpan(
                       child: Icon(
                     Icons.timer_sharp,
+                    color: Theme.of(context).appBarTheme.titleTextStyle!.color,
                     size: 25,
                   )),
-                  TextSpan(text: ")"),
+                  TextSpan(
+                      text: ")",
+                      style: TextStyle(
+                        color:
+                            Theme.of(context).appBarTheme.titleTextStyle!.color,
+                        fontWeight: FontWeight.bold,
+                        fontStyle: FontStyle.italic,
+                        fontSize: 22,
+                      )),
                 ]))
               ] else if (favorite == true) ...[
-                const Text(
-                  "Favorite",
+                Text(
+                  LocaleKeys.app_bar_Favorite.tr(),
                   style: TextStyle(
                     fontStyle: FontStyle.italic,
                   ),
                 ),
               ] else if (settings == true) ...[
-                const Text(
-                  "Settings",
+                Text(
+                  LocaleKeys.app_bar_Settings.tr(),
                   style: TextStyle(
                     fontStyle: FontStyle.italic,
                   ),
@@ -369,13 +395,14 @@ class _HomePageState extends State<HomePage> {
                       );
                     },
                   )
-                : NothingWarning(Icons.alarm_add_sharp, context)
+                : NothingWarning(
+                    Icons.alarm_add_sharp, "To add a new alarm", context)
             : (timer)
                 ? (_openedBar)
                     ? WarningSelectTimer(context)
-                    : TimerCountDown(formatDuration)
+                    : TimerCountDown(formatDuration, context)
                 : (favorite == true)
-                    ? FavoritePage()
+                    ? FavoritePage(context)
                     : (settings == true)
                         ? SettingsMain(context)
                         : null,
@@ -387,9 +414,9 @@ class _HomePageState extends State<HomePage> {
                 : timer
                     ? 550
                     : favorite
-                        ? 220
+                        ? 300
                         : settings
-                            ? 400
+                            ? 350
                             : 550,
             selectedItemIconColor: Theme.of(context).focusColor,
             mainButtonPosition: MainButtonPosition.middle,
@@ -519,7 +546,45 @@ class _HomePageState extends State<HomePage> {
                   ],
                 )
               ] else if (favorite) ...[
-                const Text("favorite"),
+                Column(
+                  children: [
+                    Center(
+                      child: Text(
+                        "Adding a Favorite Alarm",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Theme.of(context)
+                              .appBarTheme
+                              .titleTextStyle!
+                              .color,
+                        ),
+                      ),
+                    ),
+                    Card(
+                      child: Text(
+                          "To add an alarm to your favorites, you need to click on the star on an existing alarm, then go back here and see the result."),
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Center(
+                      child: Text(
+                        "Deleting a Favorite Alarm",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Theme.of(context)
+                              .appBarTheme
+                              .titleTextStyle!
+                              .color,
+                        ),
+                      ),
+                    ),
+                    Card(
+                      child: Text(
+                          "To remove an alarm from favorites, you need to click on the active star on the alarm clock on the main page with alarms, then go back here and see the result"),
+                    ),
+                  ],
+                )
               ] else if (settings) ...[
                 SettingsInfo(context)
               ]

@@ -1,0 +1,20 @@
+{
+    "app_bar": {
+        "Alarm": "Alarm",
+        "Timer": "Timer",
+        "hour": "h",
+        "Favorite": "Favorite",
+        "Settings": "Settings"
+    },
+    "settings": {
+        "Theme": "Theme",
+        "Change_sound_of_timer": "Sound of the timer",
+        "Reminder_notifications": "Reminder notifications",
+        "Change_language": "Change language",
+        "language": "English",
+        "Thanks_for_using_my_app": "Thanks for using my app!",
+        "Your_version_up_to_date": "Your version up to date",
+        "Check_update": "Check update",
+        "Current_version": "Version"
+    }
+}

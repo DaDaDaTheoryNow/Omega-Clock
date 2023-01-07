@@ -1,11 +1,15 @@
-// ignore_for_file: must_be_immutable
+// deprecated_member_use
+
+// ignore_for_file: deprecated_member_use
 
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class NothingWarning extends StatefulWidget {
   final IconData icon;
-  BuildContext context;
-  NothingWarning(this.icon, this.context, {super.key});
+  final String alarmText;
+  final BuildContext context;
+  NothingWarning(this.icon, this.alarmText, this.context, {super.key});
 
   @override
   State<NothingWarning> createState() => _NothingWarningState();
@@ -45,16 +49,26 @@ class _NothingWarningState extends State<NothingWarning> {
                           fontWeight: FontWeight.bold,
                           fontSize: 25,
                           color:
-                              Theme.of(widget.context).dialogBackgroundColor),
+                              Theme.of(widget.context).accentColor),
                     ),
                     WidgetSpan(
                         child: Container(
                       padding: const EdgeInsets.only(left: 7, right: 7),
-                      child: Icon(
+                      child:  FloatingActionButton(onPressed: (){
+                        Fluttertoast.showToast(
+        msg: "↓   ",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0
+    );
+                      }, backgroundColor: Theme.of(widget.context).focusColor, child: Icon(
                         widget.icon,
-                        color: Theme.of(widget.context).canvasColor,
+                        color: Theme.of(widget.context).accentColor,
                         size: 40,
-                      ),
+                      )),
                     )),
                     TextSpan(
                       text: "button",
@@ -62,18 +76,18 @@ class _NothingWarningState extends State<NothingWarning> {
                           fontWeight: FontWeight.bold,
                           fontSize: 25,
                           color:
-                              Theme.of(widget.context).dialogBackgroundColor),
+                              Theme.of(widget.context).accentColor),
                     ),
                   ],
                 ),
               ),
             ),
             Text(
-              "To add a new alarm",
+              widget.alarmText,
               style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 22,
-                  color: Theme.of(widget.context).dialogBackgroundColor),
+                  color: Theme.of(widget.context).accentColor),
             )
           ],
         ),

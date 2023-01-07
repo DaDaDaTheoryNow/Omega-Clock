@@ -13,7 +13,9 @@ import '../../home.dart';
 
 class TimerCountDown extends StatefulWidget {
   int _duration;
-  TimerCountDown(this._duration, {Key? key}) : super(key: key);
+  BuildContext context_app;
+  TimerCountDown(this._duration, this.context_app, {Key? key})
+      : super(key: key);
 
   @override
   State<TimerCountDown> createState() => _TimerCountDownState();
@@ -114,7 +116,7 @@ class _TimerCountDownState extends State<TimerCountDown> {
                       padding: const EdgeInsets.only(top: 100),
                       child: Column(children: [
                         Container(
-                          color: Colors.green,
+                          color: Theme.of(widget.context_app).splashColor,
                           width: MediaQuery.of(context).size.width,
                           height: 1.6,
                         ),

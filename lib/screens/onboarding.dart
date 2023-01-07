@@ -1,4 +1,4 @@
-// ignore_for_file: library_private_types_in_public_api
+// ignore_for_file: library_private_types_in_public_api, deprecated_member_use
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -127,7 +127,10 @@ class _OnboardingPageState extends State<OnboardingPage> {
                 style: bodyStyle,
                 textDirection: TextDirection.ltr,
               ),
-              const Icon(Icons.add_alarm_sharp),
+              Icon(
+                Icons.add_alarm_sharp,
+                color: Theme.of(context).dialogBackgroundColor,
+              ),
               Text(" button", style: bodyStyle),
             ],
           ),
