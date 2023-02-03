@@ -29,7 +29,7 @@
 ###### To build the project you need to transfer files:
 
 
-- FlutterAlarmClockPlugin.kt to **AppData\Local\Pub\Cache\hosted\pub.dartlang.org\flutter_alarm_clock-0.0.2\android\src\main\kotlin\tech\sebastjanmevlja\flutter_alarm_clock\
+- FlutterAlarmClockPlugin.kt to ***AppData\Local\Pub\Cache\hosted\pub.dartlang.org\flutter_alarm_clock-0.0.2\android\src\main\kotlin\tech\sebastjanmevlja\flutter_alarm_clock\
 
 
 - flutter_alarm_clock.dart to ***AppData\Local\Pub\Cache\hosted\pub.dartlang.org\flutter_alarm_clock-0.0.2\lib\***
