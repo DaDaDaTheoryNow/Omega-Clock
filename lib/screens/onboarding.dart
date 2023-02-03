@@ -1,13 +1,11 @@
 // ignore_for_file: library_private_types_in_public_api, deprecated_member_use
 
-import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:omega_clock/generated/locale_keys.g.dart';
 import 'package:omega_clock/home.dart';
-import 'package:omega_clock/widgets/settings/settings_main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:omega_clock/modules/simple_gradient_text.dart';
 
