@@ -12,7 +12,7 @@ class SettingsInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double version_app = 1.1;
+    double version_app = 1.0;
     return SafeArea(
         maintainBottomViewPadding: true,
         child: Padding(
