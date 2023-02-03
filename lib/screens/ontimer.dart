@@ -1,10 +1,8 @@
 // ignore_for_file: must_be_immutable
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:omega_clock/home.dart';
-import 'package:omega_clock/modules/notifications.dart';
-
-import '../modules/set_timer_finish.dart';
+import 'package:omega_clock/generated/locale_keys.g.dart';
 
 class OnTimer extends StatefulWidget {
   VoidCallback voidCall;
@@ -27,7 +25,7 @@ class _OnTimerState extends State<OnTimer> {
               borderRadius: BorderRadius.circular(7.0),
             ),
             child: Text(
-              "Time is up",
+              LocaleKeys.timer_main_Time_is_up.tr(),
               style: TextStyle(
                 color: Colors.red,
                 fontWeight: FontWeight.w600,
@@ -42,7 +40,7 @@ class _OnTimerState extends State<OnTimer> {
           child: OutlinedButton(
             onPressed: widget.voidCall,
             child: Text(
-              "STOP",
+              LocaleKeys.timer_main_STOP.tr(),
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.w900,

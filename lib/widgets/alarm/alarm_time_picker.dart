@@ -2,6 +2,8 @@
 
 import 'package:day_night_time_picker/lib/constants.dart';
 import 'package:day_night_time_picker/lib/daynight_timepicker.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:omega_clock/generated/locale_keys.g.dart';
 import 'package:flutter/material.dart';
 
 class AlarmTimePicker extends StatefulWidget {
@@ -23,7 +25,7 @@ class _AlarmTimePickerState extends State<AlarmTimePicker> {
     return Column(
       children: [
         Text(
-          "Choose time for your alarm",
+          LocaleKeys.alarm_main_Choose_time_for_your_alarm.tr(),
           style: TextStyle(
             color: Theme.of(widget.context).dialogBackgroundColor,
             fontSize: 22,

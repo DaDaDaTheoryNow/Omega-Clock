@@ -1,6 +1,8 @@
 // ignore_for_file: must_be_immutable
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:omega_clock/generated/locale_keys.g.dart';
 
 class WarningSelectTimer extends StatefulWidget {
   BuildContext context;
@@ -33,7 +35,7 @@ class _WarningSelectTimerState extends State<WarningSelectTimer> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              "Choose time for your timer",
+              LocaleKeys.timer_main_Choose_time_for_your_timer.tr(),
               style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 25,

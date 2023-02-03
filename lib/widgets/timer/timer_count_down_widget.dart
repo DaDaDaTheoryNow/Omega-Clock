@@ -2,7 +2,9 @@
 
 import 'dart:ui';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:omega_clock/generated/locale_keys.g.dart';
 import 'package:omega_clock/modules/notifications.dart';
 import 'package:omega_clock/modules/set_timer_finish.dart';
 
@@ -13,7 +15,9 @@ import '../../home.dart';
 
 class TimerCountDown extends StatefulWidget {
   int _duration;
-  TimerCountDown(this._duration, {Key? key}) : super(key: key);
+  BuildContext context_app;
+  TimerCountDown(this._duration, this.context_app, {Key? key})
+      : super(key: key);
 
   @override
   State<TimerCountDown> createState() => _TimerCountDownState();
@@ -75,7 +79,8 @@ class _TimerCountDownState extends State<TimerCountDown> {
                             _start = false;
 
                             // set notification
-                            setNotification("Timer", "Time is up");
+                            setNotification(LocaleKeys.timer_main_Timer.tr(),
+                                LocaleKeys.timer_main_Time_is_up.tr());
 
                             // puts the last durations
                             startTimer();
@@ -114,7 +119,7 @@ class _TimerCountDownState extends State<TimerCountDown> {
                       padding: const EdgeInsets.only(top: 100),
                       child: Column(children: [
                         Container(
-                          color: Colors.green,
+                          color: Theme.of(widget.context_app).splashColor,
                           width: MediaQuery.of(context).size.width,
                           height: 1.6,
                         ),
@@ -156,7 +161,7 @@ class _TimerCountDownState extends State<TimerCountDown> {
                                         });
                                       },
                                       child: Text(
-                                        "Restart",
+                                        LocaleKeys.timer_main_Restart.tr(),
                                         style: TextStyle(
                                           color: Colors.white,
                                         ),

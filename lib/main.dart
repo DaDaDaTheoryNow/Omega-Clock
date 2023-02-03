@@ -1,34 +1,46 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:animated_splash_screen/animated_splash_screen.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:adaptive_theme/adaptive_theme.dart';
+import 'package:omega_clock/generated/codegen_loader.g.dart';
 import 'package:omega_clock/home.dart';
+import 'package:omega_clock/modules/notifications.dart';
 import 'package:omega_clock/modules/set_sound_timer.dart';
-//import 'package:omega_clock/modules/notifications.dart';
 import 'package:omega_clock/screens/onboarding.dart';
 import 'package:omega_clock/widgets/settings/settings_main.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:omega_clock/modules/simple_gradient_text.dart';
-//import 'package:workmanager/workmanager.dart';
+import 'package:workmanager/workmanager.dart';
 
-//import 'modules/set_timer_finish.dart';
-
-/*void callbackDispatcher() {
+void callbackDispatcher() {
   Workmanager().executeTask((taskName, inputData) async {
-    print("Task executing :" + taskName);
+    print("Task executing: " + taskName);
     switch (taskName) {
-      case "alarmDeleteAfterTime":
-        List test;
-
+      case "missAlarm":
+        Noti.showBigTextNotification(
+            title: "Go back (click)",
+            body: "Your alarm clocks miss you ;(",
+            fln: flutterLocalNotificationsPlugin);
         break;
+      case "controlAlarm":
+        Noti.showBigTextNotification(
+            title: "Omega Clock",
+            body: "Control your time with Omega Clock",
+            fln: flutterLocalNotificationsPlugin);
+        break;
+      default:
     }
     return Future.value(true);
   });
-}*/
+}
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  //Workmanager().initialize(callbackDispatcher);
+  await EasyLocalization.ensureInitialized();
+  Workmanager().initialize(callbackDispatcher);
 
   // get isStarted info
   final prefs = await SharedPreferences.getInstance();
@@ -44,8 +56,34 @@ void main() async {
   selectedItemTheme = prefs.getString("SelectTheme") ?? "System";
   debugPrint("get Theme '$selectedItemTheme'");
 
+  // get backgroundNotifications
+  isNotifications = prefs.getBool("Notifications") ?? true;
+  debugPrint("get Notifications '$isNotifications'");
+  if (isNotifications) {
+    Workmanager().cancelByUniqueName("missAlarm");
+    Workmanager().cancelByUniqueName("controlAlarm");
+    // start again
+    Workmanager().registerPeriodicTask("missAlarm", "missAlarm",
+        initialDelay: Duration(hours: 54), frequency: Duration(hours: 54));
+    Workmanager().registerPeriodicTask("controlAlarm", "controlAlarm",
+        initialDelay: Duration(hours: 24), frequency: Duration(hours: 24));
+
+    debugPrint("Notifications on");
+  } else {
+    Workmanager().cancelByUniqueName("missAlarm");
+    Workmanager().cancelByUniqueName("controlAlarm");
+
+    debugPrint("Notifications off");
+  }
+
   runApp(
-    OmegaClockApp(isStarted: isStarted),
+    EasyLocalization(
+      supportedLocales: [Locale('en'), Locale('ru')],
+      path: 'assets/translations',
+      fallbackLocale: Locale('en'),
+      assetLoader: CodegenLoader(),
+      child: OmegaClockApp(isStarted: isStarted),
+    ),
   );
 }
 
@@ -120,7 +158,9 @@ class OmegaClockApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
+      localizationsDelegates: context.localizationDelegates,
+      supportedLocales: context.supportedLocales,
+      locale: context.locale,
       home: AdaptiveTheme(
         // lightData
         light: ThemeData(
@@ -139,6 +179,8 @@ class OmegaClockApp extends StatelessWidget {
           hintColor: Colors.grey,
           // focusColor theme || use focus BottomBar icons
           focusColor: Colors.lightBlue,
+          // accentColor theme || use in nothingWarningText
+          accentColor: Colors.white,
           // errorColor theme || use bottom and up apps widgets
           errorColor: Colors.white,
           // appBar theme
@@ -182,6 +224,8 @@ class OmegaClockApp extends StatelessWidget {
           hintColor: Colors.white,
           // focusColor theme || use focus BottomBar icons
           focusColor: const Color.fromARGB(195, 59, 182, 63),
+          // accentColor theme || use in nothingWarningText
+          accentColor: Colors.white,
           // errorColor theme || use bottom and up apps widgets
           errorColor: Colors.grey[900],
           // appBar theme
@@ -206,7 +250,7 @@ class OmegaClockApp extends StatelessWidget {
           ),
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
-        initial: AdaptiveThemeMode.system,
+        initial: AdaptiveThemeMode.dark,
         builder: (theme, darkTheme) => MaterialApp(
           theme: theme,
           darkTheme: darkTheme,

@@ -1,18 +1,10 @@
 import 'package:card_loading/card_loading.dart';
 import 'package:flutter/material.dart';
-import 'package:omega_clock/screens/favorite.dart';
-import 'package:omega_clock/widgets/favorite_button.dart';
-import 'package:omega_clock/home.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class AlarmFavoriteWidget extends StatefulWidget {
   final alarmName;
   final alarmTime;
-  String alarmFavoriteListAsString;
-  String alarmUsed;
-  AlarmFavoriteWidget(this.alarmName, this.alarmTime,
-      this.alarmFavoriteListAsString, this.alarmUsed,
-      {super.key});
+  AlarmFavoriteWidget(this.alarmName, this.alarmTime, {super.key});
 
   @override
   State<AlarmFavoriteWidget> createState() => _AlarmFavoriteWidgetState();
@@ -25,8 +17,6 @@ bool _visibleLoading = false;
 bool firstTimeLoading = true;
 
 class _AlarmFavoriteWidgetState extends State<AlarmFavoriteWidget> {
-  bool _visibleFavorite = false;
-  int? index;
   @override
   void initState() {
     super.initState();
@@ -55,19 +45,12 @@ class _AlarmFavoriteWidgetState extends State<AlarmFavoriteWidget> {
           });
         });
       });
-      getFavoriteIndex();
     }
   }
 
-  getFavoriteIndex() async {
-    final prefs = await SharedPreferences.getInstance();
-    index = prefs.getInt("FavoriteIndex")!;
-  }
 
   @override
   Widget build(BuildContext context) {
-    bool alarmFavorite = widget.alarmFavoriteListAsString == 'true';
-    getFavoriteIndex();
     return AnimatedOpacity(
         opacity: _visibleLoading ? 1 : 0.0,
         duration: const Duration(milliseconds: 575),
@@ -132,181 +115,11 @@ class _AlarmFavoriteWidgetState extends State<AlarmFavoriteWidget> {
                                 Row(
                                   children: [
                                     Padding(
-                                        padding:
-                                            const EdgeInsets.only(right: 25),
-                                        child: IconButton(
-                                          onPressed: () {
-                                            // info delete
-                                            showDialog(
-                                                context: context,
-                                                builder:
-                                                    (BuildContext context) {
-                                                  return AlertDialog(
-                                                    backgroundColor:
-                                                        Colors.white,
-                                                    title: Text(
-                                                      "Delete alarm",
-                                                      style: TextStyle(
-                                                          color: Colors.black,
-                                                          fontSize: 27),
-                                                    ),
-                                                    content: Text(
-                                                      "To delete an alarm just swipe left and confirm deletion",
-                                                      style: TextStyle(
-                                                          fontStyle:
-                                                              FontStyle.italic,
-                                                          fontSize: 17),
-                                                    ),
-                                                    actions: [
-                                                      Center(
-                                                        child: SizedBox(
-                                                          height: 35,
-                                                          width: 90,
-                                                          child: ElevatedButton(
-                                                              onPressed: () {
-                                                                Navigator.of(
-                                                                        context)
-                                                                    .pop();
-                                                              },
-                                                              child:
-                                                                  Text("Okey")),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  );
-                                                });
-                                          },
-                                          icon: Icon(
-                                            Icons.info_outline,
-                                            size: 35,
-                                          ),
-                                        )),
-                                    if (!_visibleFavorite)
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(right: 15),
-                                        child: FavoriteButton(
-                                          iconSize: 55,
-                                          isFavorited: alarmFavorite,
-                                          valueChanged: (_isChanged) async {
-                                            final prefs =
-                                                await SharedPreferences
-                                                    .getInstance();
-
-                                            if (_isChanged) {
-                                              debugPrint("Is changed true");
-
-                                              alarmFavoriteNameList
-                                                  .add(widget.alarmName);
-                                              alarmFavoriteTimeList
-                                                  .add(widget.alarmTime);
-
-                                              prefs.setStringList(
-                                                  'alarmFavoriteNameList',
-                                                  alarmFavoriteNameList);
-                                              prefs.setStringList(
-                                                  'alarmFavoriteTimeList',
-                                                  alarmFavoriteTimeList);
-
-                                              // test favorite
-                                              alarmFavoriteList
-                                                  .removeAt(index!);
-                                              alarmFavoriteList.insert(
-                                                  index!, "true");
-                                              prefs.setStringList(
-                                                  'alarmFavoriteList',
-                                                  alarmFavoriteList);
-                                              // end
-
-                                              setState(() {
-                                                _visibleFavorite = true;
-                                              });
-                                            }
-                                            if (!_isChanged) {
-                                              debugPrint("Is changed false");
-
-                                              alarmFavoriteNameList
-                                                  .remove(widget.alarmName);
-                                              alarmFavoriteTimeList
-                                                  .remove(widget.alarmTime);
-
-                                              prefs.setStringList(
-                                                  'alarmFavoriteNameList',
-                                                  alarmFavoriteNameList);
-                                              prefs.setStringList(
-                                                  'alarmFavoriteTimeList',
-                                                  alarmFavoriteTimeList);
-
-                                              // test favorite
-                                              alarmFavoriteList
-                                                  .removeAt(index!);
-                                              alarmFavoriteList.insert(
-                                                  index!, "false");
-                                              prefs.setStringList(
-                                                  'alarmFavoriteList',
-                                                  alarmFavoriteList);
-                                              debugPrint(
-                                                  alarmFavoriteList.toString());
-                                              debugPrint(index.toString());
-                                              // end
-                                            }
-                                          },
-                                        ),
-                                      ),
-                                    if (_visibleFavorite)
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            right: 15, bottom: 5),
-                                        child: IconButton(
-                                          onPressed: () async {
-                                            final prefs =
-                                                await SharedPreferences
-                                                    .getInstance();
-
-                                            alarmFavoriteNameList
-                                                .remove(widget.alarmName);
-                                            alarmFavoriteTimeList
-                                                .remove(widget.alarmTime);
-
-                                            prefs.setStringList(
-                                                'alarmFavoriteNameList',
-                                                alarmFavoriteNameList);
-                                            prefs.setStringList(
-                                                'alarmFavoriteTimeList',
-                                                alarmFavoriteTimeList);
-
-                                            // test favorite
-                                            alarmFavoriteList.removeAt(index!);
-                                            alarmFavoriteList.insert(
-                                                index!, "false");
-                                            prefs.setStringList(
-                                                'alarmFavoriteList',
-                                                alarmFavoriteList);
-                                            // end
-
-                                            setState(() {
-                                              _visibleFavorite =
-                                                  !_visibleFavorite;
-                                            });
-                                          },
-                                          icon: Icon(
-                                            Icons.star,
-                                            color: Colors.yellow,
-                                            size: 40,
-                                          ),
-                                        ),
-                                      )
+                                      padding: const EdgeInsets.only(right: 15),
+                                      child: Icon(Icons.star, color: Colors.yellow, size: 38,),
+                                    )
                                   ],
                                 ),
-                                if (widget.alarmUsed == "true")
-                                  Text(
-                                    "This alarm has already gone off, please delete",
-                                    style: TextStyle(
-                                      color: Colors.red,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 10,
-                                    ),
-                                  )
                               ],
                             ),
                           ],

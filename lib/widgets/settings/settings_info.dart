@@ -1,8 +1,10 @@
 // ignore_for_file: non_constant_identifier_names
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:im_animations/im_animations.dart';
+import 'package:omega_clock/generated/locale_keys.g.dart';
 
 class SettingsInfo extends StatelessWidget {
   final context_app;
@@ -16,7 +18,7 @@ class SettingsInfo extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.only(left: 5, right: 5),
           child: SizedBox(
-            height: 320,
+            height: 225,
             width: MediaQuery.of(context).size.width,
             child: Card(
               shape: RoundedRectangleBorder(
@@ -29,7 +31,8 @@ class SettingsInfo extends StatelessWidget {
                     padding: const EdgeInsets.only(bottom: 0),
                     child: HeartBeat(
                       child: Text(
-                        "Thanks for using my app!",
+                        LocaleKeys.settings_main_Thanks_for_using_my_app.tr(),
+                        textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 25,
                         ),
@@ -62,7 +65,9 @@ class SettingsInfo extends StatelessWidget {
                                 ),
                                 onPressed: () {
                                   Fluttertoast.showToast(
-                                      msg: "Your version up to date",
+                                      msg: LocaleKeys
+                                          .settings_main_Your_version_up_to_date
+                                          .tr(),
                                       toastLength: Toast.LENGTH_SHORT,
                                       gravity: ToastGravity.BOTTOM,
                                       timeInSecForIosWeb: 1,
@@ -71,13 +76,15 @@ class SettingsInfo extends StatelessWidget {
                                       fontSize: 16.0);
                                 },
                                 child: Text(
-                                  "Check update",
+                                  LocaleKeys.settings_main_Check_update.tr(),
                                   style: TextStyle(
                                     color: Theme.of(context_app).focusColor,
                                   ),
                                 )),
                           ),
-                          Text("Current version: $version_app")
+                          Text(LocaleKeys.settings_main_Current_version.tr() +
+                              ": " +
+                              "$version_app")
                         ],
                       ))
                 ],

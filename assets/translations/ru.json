@@ -1,0 +1,70 @@
+{
+    "onboarding": {
+        "Best_app" : "Лучшее Дополнение-Приложение Для Будильника",
+        "Made_by": "Создатель ",
+        "name": "Смирнов Владислав ",
+        "class": "7 \"В\" класс",
+        "Easy_to_use": "Лёгкое в использовании",
+        "The_app_is_easy_to_use": "В приложении довольно лёгкий интерфейс",
+        "Comfortable_size": "Удобный размер",
+        "The_application_weighs_very_little": "Приложение имеет маленький вес, и пойдёт на многих устройствах",
+        "Full_control_of_your_time": "Полный контроль своего времени",
+        "24_application_will_help" :"24/7 приложение помогает вам в контроле времени",
+        "One_click_alarm": "1-клик будильник",
+        "Add_your_alarm_with": "Добавьте будильник с помощью ",
+        "button": " кнопки",
+        "Done": "Готово",
+        "Lets_go_right_away": "Пропустить",
+        "Initial_settings": "Первоначальные настройки"
+    },
+    "app_bar": {
+        "Alarm": "Будильник",
+        "Timer": "Таймер",
+        "hour": "ч",
+        "Favorite": "Избранные",
+        "Settings": "Настройки"
+    },
+    "alarm_main": {
+        "Click_on_the": "Нажмите на эту",
+        "button": "кнопку",
+        "To_add_a_new_alarm": "Чтобы добавить новый будильник",
+        "Choose_time_for_your_alarm": "Выберете время для будильника",
+        "Deleting_please_wait": "Удаление, пожалуйста подождите...",
+        "Delete": "Удалить?",
+        "go_back": "вернитесь назад",
+        "Go_back_click": "Вернуться назад (нажмите)",
+        "Go_back_by_clicking_on_the_notification": "Вернитесь назад нажав на новое уведомление",
+        "Sucess_delete": "Успешное удаление",
+        "alarm": "будильник",
+        "Set_alarm_name": "Создание имя будильника",
+        "Enter_name_for_the_alarm": "Введите имя будильника",
+        "Create_a_New_Alarm": "Создать новый будильник",
+        "Thanks_no": "Продолжить без имени"
+    },
+    "timer_main": {
+        "Choose_time_for_your_timer": "Выберете время для таймера",
+        "Timer": "Таймер",
+        "Time_is_up": "Время вышло",
+        "Restart": "Заново",
+        "STOP": "СТОП"
+    },
+    "favorite_main": {
+        "To_see_information_about_favorites": "Чтобы посмотреть как добавлять в избранное",
+        "Adding_a_Favorite_Alarm": "Добавление в избранное будильника",
+        "To_add_an_alarm_to_your_favorites": "Чтобы добавить будильник в избранное, вам надо нажать на звезду на существующем будильнике, затем вернуться обратно и посмотреть на результат.",
+        "Deleting_a_Favorite_Alarm": "Удаление из избранного будильника",
+        "To_remove_an_alarm_from_favorites": "Чтобы удалить будильник из избранного, вам надо нажать на звезду на будильнике на главной странице с будильниками, затем вернуться обратно и посмотреть на результат."
+        
+    },
+    "settings_main": {
+        "Theme": "Тема",
+        "Change_sound_of_timer": "Звук таймера",
+        "Reminder_notifications": "Напоминающие уведомления",
+        "Change_language": "Изменить язык",
+        "language": "Русский",
+        "Thanks_for_using_my_app": "Спасибо за использование моего приложения!",
+        "Your_version_up_to_date": "Ваша версия актуальная",
+        "Check_update": "Проверить обновления",
+        "Current_version": "Версия"
+    }
+}
