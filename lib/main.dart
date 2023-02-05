@@ -53,7 +53,7 @@ void main() async {
   debugPrint("get TimerSound '$selectedItemSound'");
 
   // get selectTheme
-  selectedItemTheme = prefs.getString("SelectTheme") ?? "System";
+  selectedItemTheme = prefs.getString("SelectTheme") ?? "Dark";
   debugPrint("get Theme '$selectedItemTheme'");
 
   // get backgroundNotifications

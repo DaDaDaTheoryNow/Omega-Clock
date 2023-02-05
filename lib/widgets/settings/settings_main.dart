@@ -18,8 +18,8 @@ class SettingsMain extends StatefulWidget {
 }
 
 // Change Theme variables
-List<String> themes = ["System", "Dark", "Light"];
-String? selectedItemTheme = "System";
+List<String> themes = ["System", "Light", "Dark"];
+String? selectedItemTheme = "Dark";
 
 // Change the sound of the timer variables
 List<String> sounds = [
@@ -88,7 +88,9 @@ class _SettingsMainState extends State<SettingsMain> {
                                 )))
                             .toList(),
                         onChanged: (item) async {
-                          selectedItemTheme = item;
+                          setState(() {
+                            selectedItemTheme = item;
+                          });
                           final prefs = await SharedPreferences.getInstance();
                           prefs.setString("SelectTheme", selectedItemTheme!);
                           if (selectedItemTheme == "System") {
